@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.keycloak.experimental.magic;
+package org.keycloak.summit;
 
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:sthorger@redhat.com">Stian Thorgersen</a>
  */
-public class MagicLinkFormAuthenticatorFactory implements AuthenticatorFactory {
+public class EmailOnlyFormAuthenticatorFactory implements AuthenticatorFactory {
 
     public static final String ID = "magic-form";
 
@@ -42,7 +42,7 @@ public class MagicLinkFormAuthenticatorFactory implements AuthenticatorFactory {
 
     @Override
     public Authenticator create(KeycloakSession session) {
-        return new MagicLinkFormAuthenticator();
+        return new EmailOnlyFormAuthenticator();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class MagicLinkFormAuthenticatorFactory implements AuthenticatorFactory {
 
     @Override
     public String getReferenceCategory() {
-        return "magic";
+        return "email-only";
     }
 
     @Override
@@ -72,12 +72,12 @@ public class MagicLinkFormAuthenticatorFactory implements AuthenticatorFactory {
 
     @Override
     public String getDisplayType() {
-        return "Magic Link";
+        return "Email Only";
     }
 
     @Override
     public String getHelpText() {
-        return "Magic Link";
+        return "Email Only";
     }
 
     @Override

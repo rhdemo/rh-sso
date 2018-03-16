@@ -40,7 +40,7 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.keycloak.experimental</groupId>
+                <groupId>org.keycloak.summit</groupId>
                 <artifactId>keycloak-summit-provider-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>

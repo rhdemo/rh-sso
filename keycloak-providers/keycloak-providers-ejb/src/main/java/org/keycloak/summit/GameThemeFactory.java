@@ -1,4 +1,4 @@
-package org.keycloak.experimental.magic;
+package org.keycloak.summit;
 
 import org.keycloak.Config;
 import org.keycloak.models.KeycloakSession;

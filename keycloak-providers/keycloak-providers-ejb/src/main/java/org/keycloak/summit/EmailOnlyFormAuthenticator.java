@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.keycloak.experimental.magic;
+package org.keycloak.summit;
 
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
@@ -37,7 +37,7 @@ import javax.ws.rs.core.Response;
 /**
  * @author <a href="mailto:sthorger@redhat.com">Stian Thorgersen</a>
  */
-public class MagicLinkFormAuthenticator extends AbstractUsernameFormAuthenticator implements Authenticator {
+public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticator implements Authenticator {
 
     @Override
     public void action(AuthenticationFlowContext context) {
