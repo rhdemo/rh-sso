@@ -1,9 +1,7 @@
 <#import "template.ftl" as layout>
-<@layout.registrationLayout displayInfo=false; section>
-    <#if section = "title">
-        ${msg("loginTitle",(realm.displayName!''))}
-    <#elseif section = "header">
-        ${msg("loginTitleHtml",(realm.displayNameHtml!''))?no_esc}
+<@layout.registrationLayout displayInfo=social.displayInfo displayWide=(realm.password && social.providers??); section>
+    <#if section = "header">
+        ${msg("doLogIn")}
     <#elseif section = "form">
         <#if realm.password>
             <form id="kc-form-login" class="${properties.kcFormClass!}" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">

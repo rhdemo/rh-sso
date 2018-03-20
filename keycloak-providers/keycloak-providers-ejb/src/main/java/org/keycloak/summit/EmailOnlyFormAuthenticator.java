@@ -72,7 +72,7 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
                 }
 
                 context.setUser(user);
-                context.challenge(context.form().createForm("view-email.ftl"));
+                context.challenge(context.form().createForm("login-email-only-code.ftl"));
             }
         } else if (code != null) {
             String sessionKey = context.getAuthenticationSession().getAuthNote("email-key");

@@ -39,7 +39,7 @@
     </dependencies>
 
     <build>
-        <finalName>magic-link</finalName>
+        <finalName>keycloak-summit-providers</finalName>
 
         <plugins>
             <plugin>

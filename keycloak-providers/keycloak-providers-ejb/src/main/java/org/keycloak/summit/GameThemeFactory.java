@@ -19,41 +19,7 @@ import java.util.Map;
 
 public class GameThemeFactory implements ThemeProviderFactory {
 
-    protected static final String KEYCLOAK_THEMES_JSON = "META-INF/keycloak-themes.json";
-    protected static Map<Theme.Type, Map<String, ClassLoaderTheme>> themes = new HashMap<>();
-
-    public static class ThemeRepresentation {
-        private String name;
-        private String[] types;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String[] getTypes() {
-            return types;
-        }
-
-        public void setTypes(String[] types) {
-            this.types = types;
-        }
-    }
-
-    public static class ThemesRepresentation {
-        private ThemeRepresentation[] themes;
-
-        public ThemeRepresentation[] getThemes() {
-            return themes;
-        }
-
-        public void setThemes(ThemeRepresentation[] themes) {
-            this.themes = themes;
-        }
-    }
+    protected Map<Theme.Type, Map<String, ClassLoaderTheme>> themes = new HashMap<>();
 
     @Override
     public ThemeProvider create(KeycloakSession session) {
@@ -63,11 +29,11 @@ public class GameThemeFactory implements ThemeProviderFactory {
     @Override
     public void init(Config.Scope config) {
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            Enumeration<URL> resources = classLoader.getResources(KEYCLOAK_THEMES_JSON);
-            while (resources.hasMoreElements()) {
-                loadThemes(classLoader, resources.nextElement().openStream());
-            }
+            Map<String, ClassLoaderTheme> loginThemes = new HashMap<>();
+            loginThemes.put("game", new ClassLoaderTheme("game", Theme.Type.LOGIN, GameThemeFactory.class.getClassLoader()));
+
+            themes = new HashMap<>();
+            themes.put(Theme.Type.LOGIN, loginThemes);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load themes", e);
         }
@@ -83,25 +49,7 @@ public class GameThemeFactory implements ThemeProviderFactory {
 
     @Override
     public String getId() {
-        return "game-theme";
-    }
-
-    protected void loadThemes(ClassLoader classLoader, InputStream themesInputStream) {
-        try {
-            ThemesRepresentation themesRep = JsonSerialization.readValue(themesInputStream, ThemesRepresentation.class);
-
-            for (ThemeRepresentation themeRep : themesRep.getThemes()) {
-                for (String t : themeRep.getTypes()) {
-                    Theme.Type type = Theme.Type.valueOf(t.toUpperCase());
-                    if (!themes.containsKey(type)) {
-                        themes.put(type, new HashMap<String, ClassLoaderTheme>());
-                    }
-                    themes.get(type).put(themeRep.getName(), new ClassLoaderTheme(themeRep.getName(), type, classLoader));
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load themes", e);
-        }
+        return "game-theme-provider";
     }
 
 }
