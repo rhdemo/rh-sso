@@ -66,7 +66,7 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
 
                 String body = "Login code: " + key;
                 try {
-                    context.getSession().getProvider(EmailSenderProvider.class).send(context.getRealm().getSmtpConfig(), user, "Login link", null, body);
+                    context.getSession().getProvider(EmailSenderProvider.class).send(context.getRealm().getSmtpConfig(), user, "Login code for Summit 2018", null, body);
                 } catch (EmailException e) {
                     e.printStackTrace();
                 }

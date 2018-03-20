@@ -664,6 +664,10 @@
                                     {
                                         "name": "SSO_TRUSTSTORE_PASSWORD",
                                         "value": "${SSO_TRUSTSTORE_PASSWORD}"
+                                    },
+                                    {
+                                        "name": "LANG",
+                                        "value": "en_US.UTF-8"
                                     }
                                 ]
                             }
