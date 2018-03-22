@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 cd `dirname $0`/..
-. bin/config
+. config
 
 oc new-project $PROJECT
 

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 cd `dirname $0`/..
-. bin/config
+. config
 
 if [ ! -d .certs ]; then
     echo "Generating certs"

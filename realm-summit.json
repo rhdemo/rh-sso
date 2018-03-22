@@ -978,13 +978,13 @@
     "strictTransportSecurity" : "max-age=31536000; includeSubDomains"
   },
   "smtpServer" : {
-    "password" : "uvmuavpknumhkdgz",
+    "password" : "TBD",
     "starttls" : "true",
     "auth" : "true",
     "host" : "smtp.gmail.com",
-    "from" : "stianstsummit@gmail.com",
+    "from" : "TBD",
     "ssl" : "true",
-    "user" : "stiansummit"
+    "user" : "TBD"
   },
   "loginTheme" : "game",
   "eventsEnabled" : false,
@@ -1006,10 +1006,10 @@
     "firstBrokerLoginFlowAlias" : "first broker login",
     "config" : {
       "hideOnLoginPage" : "",
-      "clientId" : "364754301817-8j2nam8mnmeq9bktm0gns4gehl1c06e2.apps.googleusercontent.com",
+      "clientId" : "TBD",
       "disableUserInfo" : "",
       "userIp" : "true",
-      "clientSecret" : "ohVKuBzc_rXW9wzIZSpQ_dCv",
+      "clientSecret" : "TBD",
       "guiOrder" : "2",
       "useJwksUrl" : "true"
     }

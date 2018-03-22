@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 cd `dirname $0`/..
-. bin/config
+. config
 
 oc new-app -f sso-single.json \
 -p IMAGE_STREAM_NAMESPACE=sso \

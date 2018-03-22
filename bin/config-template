@@ -1,0 +1,13 @@
+export CERT_PASS=6mtRY3Rr
+export ADMIN_PASS=TapABF6p
+export PROJECT=sso
+
+export SMTP_USER=<Username for SMTP server>
+export SMTP_PASSWORD=<Password for SMTP server>
+export SMTP_FROM=<From field for emails>
+
+export GOOGLE_CLIENT_ID=<Client ID for Google login>
+export GOOGLE_CLIENT_SECRET=<Client secret for Google login>
+
+export DEVELOPERS_CLIENT_ID=<Client ID for RH developers login>
+export DEVELOPERS_CLIENT_SECRET=
