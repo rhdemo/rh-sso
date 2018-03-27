@@ -275,6 +275,12 @@
             "name": "MEMORY_LIMIT",
             "value": "1Gi",
             "required": false
+        },
+        {
+            "description": "CA Certificate that OpenShift should trust when its router communicates with Keycloak over SSL",
+            "name": "CA_CERTIFICATE",
+            "value": "",
+            "required": true
         }
     ],
     "objects": [
@@ -417,7 +423,8 @@
                     "name": "secure-${APPLICATION_NAME}"
                 },
                 "tls": {
-                    "termination": "passthrough"
+                    "termination": "reencrypt",
+                    "destinationCACertificate": "${CA_CERTIFICATE}"
                 }
             }
         },
