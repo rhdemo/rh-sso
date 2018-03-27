@@ -1,4 +1,5 @@
 config
+bin/client
 .certs
 .keycloak
 
