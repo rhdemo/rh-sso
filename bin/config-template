@@ -2,6 +2,17 @@ export CERT_PASS=6mtRY3Rr
 export ADMIN_PASS=TapABF6p
 export PROJECT=sso
 
+# Switch to true if you want JDG integration enabled. That way, the "sso" will be configured to connect against JDG (Infinispan caches will have remoteStore added etc)
+export JDG_INTEGRATION_ENABLED=false
+
+# Valid values are "stage", "aws", "azure" . When you're using real clusters, you don't need to specify this env variable.
+# It will be autodetected based on where you are authenticated with `oc`.
+export JDG_SITE=stage
+
+# Those usually don't need to be changed. On all 3 "real" clusters is infinispan exposed by hostname "jdg-app-hotrod.infinispan.svc" on port 11222
+export JDG_HOST=jdg-app-hotrod.infinispan.svc
+export JDG_PORT=11222
+
 export SMTP_USER=<Username for SMTP server>
 export SMTP_PASSWORD=<Password for SMTP server>
 export SMTP_FROM=<From field for emails>

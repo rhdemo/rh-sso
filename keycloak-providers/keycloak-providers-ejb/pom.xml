@@ -51,6 +51,11 @@
             <artifactId>keycloak-services</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-model-infinispan</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

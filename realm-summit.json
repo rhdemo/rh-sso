@@ -1536,5 +1536,23 @@
     "_browser_header.contentSecurityPolicy" : "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
     "waitIncrementSeconds" : "60"
   },
+  "users": [
+    {
+      "id" : "c7826df9-f1fe-4e65-9b46-388c9848b056",
+      "username": "mposolda",
+      "enabled": true,
+      "email": "mposolda@redhat.com",
+      "firstName": "Marek",
+      "lastName": "Posolda",
+      "realmRoles": [
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account"
+        ]
+      }
+    }
+  ],
   "keycloakVersion" : "7.2.0.GA"
 }

@@ -57,6 +57,12 @@
                 <scope>provided</scope>
                 <version>${version.keycloak}</version>
             </dependency>
+            <dependency>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-model-infinispan</artifactId>
+                <scope>provided</scope>
+                <version>${version.keycloak}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
