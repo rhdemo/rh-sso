@@ -3,6 +3,8 @@
 cd `dirname $0`/..
 . config
 
+CA_CERT=`cat .certs/sso-rfc.crt`
+
 oc new-app -f sso-single.json \
 -p IMAGE_STREAM_NAMESPACE=sso \
 -p APPLICATION_NAME=sso \
@@ -14,4 +16,5 @@ oc new-app -f sso-single.json \
 -p SSO_TRUSTSTORE_PASSWORD=$CERT_PASS \
 -p JGROUPS_ENCRYPT_SECRET=sso-jgroup-secret \
 -p JGROUPS_ENCRYPT_PASSWORD=$CERT_PASS \
--p MEMORY_LIMIT=2Gi
+-p MEMORY_LIMIT=2Gi \
+-p CA_CERTIFICATE="$CA_CERT"
