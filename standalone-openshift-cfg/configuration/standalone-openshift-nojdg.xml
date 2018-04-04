@@ -552,7 +552,7 @@
             <server name="default-server">
                 <ajp-listener name="ajp" socket-binding="ajp"/>
                 <http-listener name="default" socket-binding="http" redirect-socket="proxy-https" enable-http2="true" proxy-address-forwarding="true"/>
-                <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm"/>
+                <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm" proxy-address-forwarding="true"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="sso-welcome-content"/>
                     <!-- ##ACCESS_LOG_VALVE## -->
