@@ -33,17 +33,25 @@ import org.keycloak.models.utils.KeycloakModelUtils;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import java.util.Random;
 
 /**
  * @author <a href="mailto:sthorger@redhat.com">Stian Thorgersen</a>
  */
 public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticator implements Authenticator {
 
+    private Random random = new Random();
+
     @Override
     public void action(AuthenticationFlowContext context) {
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         String email = formData.getFirst("email");
         String code = formData.getFirst("code");
+
+        if (formData.containsKey("cancel")) {
+            context.resetFlow();
+            return;
+        }
 
         if (email != null) {
             if (email.isEmpty() || !email.contains("@")) {
@@ -61,23 +69,27 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
 
                 context.success();
             } else {
-                String key = Base64Url.encode(KeycloakModelUtils.generateSecret(4));
+                String key = generateCode();
                 context.getAuthenticationSession().setAuthNote("email-key", key);
 
-                String body = "Login code: " + key;
+                String textBody = "Login code: \n" + key;
+                String htmlBody = "<p>Login code:</p><code style=\"font-size:2em;\">" + key + "</code>";
+
                 try {
-                    context.getSession().getProvider(EmailSenderProvider.class).send(context.getRealm().getSmtpConfig(), user, "Login code for Summit 2018", null, body);
+                    context.getSession().getProvider(EmailSenderProvider.class).send(context.getRealm().getSmtpConfig(), user, "Login code for Summit 2018", textBody, htmlBody);
                 } catch (EmailException e) {
                     e.printStackTrace();
                 }
 
                 context.setUser(user);
-                context.challenge(context.form().createForm("login-email-only-code.ftl"));
+                context.challenge(context.form().setAttribute("email", user.getEmail()).createForm("login-email-only-code.ftl"));
             }
         } else if (code != null) {
             String sessionKey = context.getAuthenticationSession().getAuthNote("email-key");
             if (sessionKey.equals(code)) {
                 context.success();
+            } else {
+                context.challenge(context.form().setAttribute("email", context.getUser().getEmail()).addError(new FormMessage("Invalid code")).createForm("login-email-only-code.ftl"));
             }
         } else {
             context.form().createErrorPage(Response.Status.INTERNAL_SERVER_ERROR);
@@ -106,6 +118,14 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
 
     @Override
     public void close() {
+    }
+
+    private String generateCode() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            sb.append(random.nextInt(9));
+        }
+        return sb.toString();
     }
 
 }
