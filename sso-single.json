@@ -163,6 +163,13 @@
             "required": true
         },
         {
+            "displayName": "Java Opts Append",
+            "description": "Java system properties appended when starting RHSSO",
+            "name": "JAVA_OPTS_APPEND",
+            "value": "",
+            "required": false
+        },
+        {
             "displayName": "JGroups Secret Name",
             "description": "The name of the secret containing the keystore file",
             "name": "JGROUPS_ENCRYPT_SECRET",
@@ -196,6 +203,13 @@
             "name": "JGROUPS_CLUSTER_PASSWORD",
             "from": "[a-zA-Z0-9]{8}",
             "generate": "expression",
+            "required": true
+        },
+        {
+            "displayName": "ImageStream Name",
+            "description": "Name of the image stream.",
+            "name": "IMAGE_STREAM_NAME",
+            "value": "sso72-jdg-image:latest",
             "required": true
         },
         {
@@ -452,7 +466,7 @@
                             "from": {
                                 "kind": "ImageStreamTag",
                                 "namespace": "${IMAGE_STREAM_NAMESPACE}",
-                                "name": "redhat-sso72-openshift:1.0"
+                                "name": "${IMAGE_STREAM_NAME}"
                             }
                         }
                     },
@@ -499,11 +513,6 @@
                                         "name": "sso-truststore-volume",
                                         "mountPath": "/etc/sso-secret-volume",
                                         "readOnly": true
-                                    },
-                                    {
-                                        "name": "sso-providers-volume",
-                                        "mountPath": "/opt/eap/standalone/deployments",
-                                        "readOnly": false
                                     }
                                 ],
                                 "livenessProbe": {
@@ -617,6 +626,10 @@
                                         "value": "${HTTPS_PASSWORD}"
                                     },
                                     {
+                                        "name": "JAVA_OPTS_APPEND",
+                                        "value": "${JAVA_OPTS_APPEND}"
+                                    },
+                                    {
                                         "name": "JGROUPS_ENCRYPT_SECRET",
                                         "value": "${JGROUPS_ENCRYPT_SECRET}"
                                     },
@@ -696,12 +709,6 @@
                                 "name": "sso-truststore-volume",
                                 "secret": {
                                     "secretName": "${SSO_TRUSTSTORE_SECRET}"
-                                }
-                            },
-                            {
-                                "name": "sso-providers-volume",
-                                "persistentVolumeClaim": {
-                                    "claimName": "${APPLICATION_NAME}-keycloak-providers-claim"
                                 }
                             }
                         ]
@@ -851,26 +858,6 @@
                 "resources": {
                     "requests": {
                         "storage": "${VOLUME_CAPACITY}"
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "v1",
-            "kind": "PersistentVolumeClaim",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-keycloak-providers-claim",
-                "labels": {
-                    "application": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "accessModes": [
-                    "ReadWriteOnce"
-                ],
-                "resources": {
-                    "requests": {
-                        "storage": "50Mi"
                     }
                 }
             }

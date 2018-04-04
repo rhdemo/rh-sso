@@ -8,9 +8,19 @@ SERVER=http://`oc get routes sso -o jsonpath='{.spec.host}'`/auth
 
 POD=`oc get pods -l deployment=sso-1 -o jsonpath='{.items[0].metadata.name}'`
 
-mvn clean install
-oc cp keycloak-providers/keycloak-providers-ear/target/keycloak-summit-providers.ear $POD:/opt/eap/standalone/deployments/
-oc exec $POD touch /opt/eap/standalone/deployments/keycloak-summit-providers.ear.dodeploy
+# Wait until container is ready
+READY=false;
+while [  "$READY" == "false" ]; do
+    READY=`oc get pod $POD -o jsonpath='{.status.containerStatuses[0].ready}'`
+
+    if [ "$READY" == "false" ]; then
+        echo "Pod $POD not yet ready. Waiting..."
+        sleep 5;
+    fi;
+done
+
+echo "Pod $POD is ready! Continue configuring sso pod $POD";
+sleep 5; # Rather sleep until route is finished
 
 # TODO Use https
 #bin/kcadm.sh config truststore --config $CONFIG --trustpass $CERT_PASS $PWD/.certs/truststore.jks
