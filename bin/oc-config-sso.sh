@@ -10,23 +10,11 @@ TMP_KEYSTORE=$TMP/keystore
 
 SERVER=https://`oc get routes secure-sso -o jsonpath='{.spec.host}'`/auth
 
-POD=`oc get pods -l deployment=sso-1 -o jsonpath='{.items[0].metadata.name}'`
-
 # Wait until container is ready
-READY=false;
-while [  "$READY" == "false" ]; do
-    READY=`oc get pod $POD -o jsonpath='{.status.containerStatuses[0].ready}'`
-
-    if [ "$READY" == "false" ]; then
-        echo "Pod $POD not yet ready. Waiting..."
-        sleep 5;
-    fi;
+while [ `curl -s -o /dev/null -w "%{http_code}" -k https://secure-sso-sso.192.168.42.111.nip.io` != 200 ]; do
+    echo "Waiting for $SERVER to be ready";
+    sleep 10;
 done
-
-echo "Pod $POD is ready! Continue configuring sso pod $POD";
-sleep 5; # Rather sleep until route is finished
-
-# TODO Use https
 
 # Create truststore with cert
 
