@@ -18,19 +18,17 @@
 package org.keycloak.summit;
 
 import org.keycloak.authentication.AuthenticationFlowContext;
-import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.authenticators.browser.AbstractUsernameFormAuthenticator;
-import org.keycloak.common.util.Base64Url;
-import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.email.EmailException;
 import org.keycloak.email.EmailSenderProvider;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.utils.FormMessage;
-import org.keycloak.models.utils.KeycloakModelUtils;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Random;
@@ -54,7 +52,7 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
         }
 
         if (email != null) {
-            if (email.isEmpty() || !email.contains("@")) {
+            if (!validateEmail(email)) {
                 context.challenge(context.form().addError(new FormMessage("Invalid email")).createForm("login-email-only.ftl"));
                 return;
             }
@@ -126,6 +124,20 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
             sb.append(random.nextInt(9));
         }
         return sb.toString();
+    }
+
+    private boolean validateEmail(String email) {
+        if (email.isEmpty()) {
+            return false;
+        }
+
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            return false;
+        }
+        return true;
     }
 
 }

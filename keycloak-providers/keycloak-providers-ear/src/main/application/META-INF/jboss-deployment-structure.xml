@@ -13,6 +13,7 @@
             <module name="org.bouncycastle" export="true" />
             <module name="com.google.guava" export="true" />
             <module name="org.jboss.logging" export="true" />
+            <module name="javax.mail.api" export="true" />
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
