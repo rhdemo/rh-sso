@@ -1,10 +1,8 @@
 #!/bin/bash -e
 
-cd `dirname $0`/..
-. config
+. `dirname $0`/load-config.sh
 
-CA_CERT=`cat .certs/sso-rfc.crt`
-
+CA_CERT=`cat $SECRETS/certs/sso-rfc.crt`
 
 detectJdgSite() {
     currentServer=$(oc whoami --show-server);
@@ -44,7 +42,7 @@ fi;
 
 echo "JAVA_OPTS_APPEND: $JAVA_OPTS_APPEND";
 
-oc new-app -f sso-single.json \
+oc new-app -f $DIR/sso-single.json \
 -p IMAGE_STREAM_NAMESPACE=$PROJECT \
 -p IMAGE_STREAM_NAME=sso72-jdg-image:latest \
 -p APPLICATION_NAME=sso \

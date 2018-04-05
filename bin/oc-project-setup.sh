@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
-cd `dirname $0`/..
-. config
+. `dirname $0`/load-config.sh
 
 oc new-project $PROJECT
 
@@ -9,9 +8,7 @@ oc replace -n $PROJECT --force -f https://raw.githubusercontent.com/jboss-opensh
 
 oc policy add-role-to-user view system:serviceaccount:$(oc project -q):default
 
-cd .certs
-oc secret new sso-jgroup-secret jgroups.jceks
-oc secret new sso-ssl-secret keystore.jks truststore.jks
-cd ..
+oc secret new sso-jgroup-secret $SECRETS/certs/jgroups.jceks
+oc secret new sso-ssl-secret $SECRETS/certs/keystore.jks $SECRETS/certs/truststore.jks
 
 oc secrets link default sso-jgroup-secret sso-ssl-secret

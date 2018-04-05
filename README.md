@@ -1,33 +1,14 @@
-# SSO
+SSO
+===
 
-## Single cluster setup
+
+Single cluster setup
+--------------------
 
 1. Login to oc
-2. Create file `config` from template in file `bin/config-template`
-
-
-    $ cp bin/config-template config
-    $ chmod u+x config 
-         
-3. Configure things in file `/bin/config` (SMTP server, Google client, RH developers client etc)    
-4. Run `bin/create-self-signed-certs.sh` (this will create self-signed certificates and only needs to be executed once)
-5. Run `bin/oc-project-setup.sh` (creates `sso` project and imports images, secrets, etc.)
-6. Run `bin/oc-build-sso.sh` (this will build the keycloak-providers, prepare `target` directory to 
-override default server configuration with custom server configuration file `standalone-openshift-cfg/configuration/standalone-openshift-*.xml` 
-and prepare keycloak-providers into `target/deployments` to be used in the image.
-                              
-NOTE: If you change any configuration inside `standalone-openshift-cfg/configuration/standalone-openshift-*.xml`
-or you re-implement any providers, then you need to run again `oc-build-sso.sh` and delete 
-and re-create everything (See below how to re-create stuff)  
-
-7. Run `bin/oc-create-sso-single.sh` (creates `sso` application)
-8. Run `bin/oc-config-sso.sh` (configures `sso`)
-
-To delete and re-create you can run:
-
-1. Run `bin/oc-delete-sso-single.sh`
-2. Run `bin/oc-create-sso-single.sh` (creates `sso` application)
-3. Run `bin/oc-config-sso.sh` (configures `sso`) 
+2. Checkout secrets repository in the same directory as rh-sso checkout (if you checkout to a different directory set
+   SECRETS environment to point to it)
+3. Run `bin/run-sso.sh`
 
 
 Deploy SSO to work with JDG on real servers
@@ -50,6 +31,7 @@ export JDG_INTEGRATION_ENABLED=true
 export JDG_HOST=jdg-app-hotrod.infinispan.svc
 export JDG_PORT=11222
 ```
+
 
 Deploy SSO to work with JDG on localhost
 ----------------------------------------

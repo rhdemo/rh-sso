@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
-cd `dirname $0`/..
-. config
+. `dirname $0`/load-config.sh
+
+cd $DIR
 
 mvn clean install
 rm -rf target
