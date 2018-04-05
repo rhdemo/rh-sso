@@ -11,7 +11,7 @@ TMP_KEYSTORE=$TMP/keystore
 SERVER=https://`oc get routes secure-sso -o jsonpath='{.spec.host}'`/auth
 
 # Wait until container is ready
-while [ `curl -s -o /dev/null -w "%{http_code}" -k $SERVER` != 200 ]; do
+while [ `curl -s -o /dev/null -w "%{http_code}" -k $SERVER/realms/master/` != 200 ]; do
     echo "Waiting for $SERVER to be ready";
     sleep 10;
 done
