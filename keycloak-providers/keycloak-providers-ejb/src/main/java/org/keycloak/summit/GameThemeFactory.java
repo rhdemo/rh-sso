@@ -25,11 +25,17 @@ public class GameThemeFactory implements ThemeProviderFactory {
     @Override
     public void init(Config.Scope config) {
         try {
+            themes = new HashMap<>();
+
             Map<String, ClassLoaderTheme> loginThemes = new HashMap<>();
             loginThemes.put("game", new ClassLoaderTheme("game", Theme.Type.LOGIN, GameThemeFactory.class.getClassLoader()));
 
-            themes = new HashMap<>();
             themes.put(Theme.Type.LOGIN, loginThemes);
+
+            Map<String, ClassLoaderTheme> accountThemes = new HashMap<>();
+            accountThemes.put("game", new ClassLoaderTheme("game", Theme.Type.ACCOUNT, GameThemeFactory.class.getClassLoader()));
+
+            themes.put(Theme.Type.ACCOUNT, accountThemes);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load themes", e);
         }
