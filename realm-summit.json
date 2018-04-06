@@ -987,6 +987,7 @@
     "user" : "TBD"
   },
   "loginTheme" : "game",
+  "accountTheme" : "game",
   "eventsEnabled" : false,
   "eventsListeners" : [ "jboss-logging" ],
   "enabledEventTypes" : [ ],
