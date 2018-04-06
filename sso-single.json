@@ -488,6 +488,23 @@
                     },
                     "spec": {
                         "terminationGracePeriodSeconds": 75,
+                        "initContainers": [
+                            {
+                                "name": "wait-for-${APPLICATION_NAME}-mysql",
+                                "image": "busybox",
+                                "command": [
+                                  "sh",
+                                  "-c",
+                                  "until nc -w 3 -z ${SVC} 3306; do echo waiting for ${SVC} to become available ; sleep 7 ; done"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "SVC",
+                                        "value": "${APPLICATION_NAME}-mysql"
+                                    }
+                                ]
+                            }
+                        ],
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}",
