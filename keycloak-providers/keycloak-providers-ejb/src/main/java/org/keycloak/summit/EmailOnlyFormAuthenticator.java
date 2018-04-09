@@ -22,6 +22,7 @@ import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.authenticators.browser.AbstractUsernameFormAuthenticator;
 import org.keycloak.email.EmailException;
 import org.keycloak.email.EmailSenderProvider;
+import org.keycloak.events.Details;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -65,6 +66,8 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
 
                 context.setUser(user);
 
+                context.getAuthenticationSession().setAuthNote(Details.REMEMBER_ME, "true");
+
                 context.success();
             } else {
                 String key = generateCode();
@@ -85,6 +88,8 @@ public class EmailOnlyFormAuthenticator extends AbstractUsernameFormAuthenticato
         } else if (code != null) {
             String sessionKey = context.getAuthenticationSession().getAuthNote("email-key");
             if (sessionKey.equals(code)) {
+                context.getAuthenticationSession().setAuthNote(Details.REMEMBER_ME, "true");
+
                 context.success();
             } else {
                 context.challenge(context.form().setAttribute("email", context.getUser().getEmail()).addError(new FormMessage("Invalid code")).createForm("login-email-only-code.ftl"));
