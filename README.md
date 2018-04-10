@@ -19,7 +19,7 @@ projects (EG. RHSSO), can connect to it through Hotrod protocol on `jdg-app-hotr
 
 Regarding configuration, you just need to make sure that
 * You are logged in "oc" to correct cluster (See step 1 from `Single cluster setup` above)
-* In the config file, make sure that:
+* In the config file `../secretstuff/sso/config` , make sure that:
 ** property `PROJECT` is set to some value, so it doesn't clash with other potentially existing projects 
 on the cluster.
 ** JDG related properties are configured like this (Explanation: We want JDG integration enabled. JDG host and port 
@@ -41,16 +41,17 @@ it's actually bit more complicated as you also need to provision JDG cluster loc
 See the README file: https://github.com/rhdemo/jdg-as-a-service/blob/infinispan/README.asciidoc . You need 
 to `simulate` 3 sites locally. I am using same openshift server and just 3 different projects like `infinispan`, `infinispan-2`, `infinispan-3`.
 
-* In the `rh-sso` project, the configuration may look like this. Note that `stage` points to the site, when you deployed `infinispan` project
+* In the `rh-sso` project, the configuration may look like this. Note that `stage` points to the site, where you deployed `infinispan` project
 when you deployed JDG clusters in previous step. Site needs to be specified as the auto-detection won't work on the non-real servers:
 
 ```
 export JDG_INTEGRATION_ENABLED=true
 export JDG_SITE=stage
 export JDG_HOST=jdg-app-hotrod.infinispan.svc
-export JDG_PORT=11222`
+export JDG_PORT=11222
 ```
 * On local network, the communication between JDG clusters won't work. At least for me, it doesn't work. It's due the fact that JGroups RELAY
 stack in JDG servers is configured with some special JGroups protocols to work on real network, however it seems that working on local "simulated"
-network doesn't work. This is not an issue. The most important is, if SSO server is able to connect to JDG server on stage site (project `infinispan`). 
+network doesn't work. This is not an issue. The most important is, if SSO server is able to connect to JDG server on stage site (project `infinispan`).
+In real clusters environment, the communication between JDG servers through RELAY works and it's provided by `jdg-as-a-service` project.  
    
