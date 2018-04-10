@@ -17,6 +17,9 @@ else
     cp standalone-openshift-cfg/configuration/standalone-openshift-nojdg.xml target/configuration/standalone-openshift.xml
 fi;
 
+echo "Copying custom Keycloak modules to the 'target' directory ..."
+cp -r keycloak-modules/modules target
+
 mkdir target/deployments
 cp keycloak-providers/keycloak-providers-ear/target/keycloak-summit-providers.ear target/deployments
 touch target/deployments/keycloak-summit-providers.ear.dodeploy
@@ -28,5 +31,3 @@ oc delete buildconfig/sso72-jdg-image --ignore-not-found=true
 echo "Building the image: sso72-jdg-image.";
 oc new-build --binary=true --name=sso72-jdg-image --image-stream=redhat-sso72-openshift:1.0
 oc start-build sso72-jdg-image --from-dir=./target --follow
-
-
