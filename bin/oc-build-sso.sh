@@ -21,8 +21,8 @@ echo "Copying custom Keycloak modules to the 'target' directory ..."
 cp -r keycloak-modules/modules target
 
 mkdir target/deployments
-cp keycloak-providers/keycloak-providers-ear/target/keycloak-summit-providers.ear target/deployments
-touch target/deployments/keycloak-summit-providers.ear.dodeploy
+cp keycloak-providers/target/keycloak-summit-providers.jar target/deployments
+touch target/deployments/keycloak-summit-providers.jar.dodeploy
 echo "Prepared directory 'target' to be used for custom build"
 
 oc delete imagestream/sso72-jdg-image --ignore-not-found=true
