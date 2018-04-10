@@ -590,6 +590,9 @@
             <spi name="userCache">
                 <provider name="default" enabled="true"/>
             </spi>
+            <spi name="userFederatedStorage">
+                <default-provider>jpa</default-provider>
+            </spi>
             <spi name="userSessions">
                 <default-provider>infinispan</default-provider>
             </spi>

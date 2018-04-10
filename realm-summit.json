@@ -1046,6 +1046,13 @@
     }
   } ],
   "components" : {
+    "org.keycloak.storage.UserStorageProvider" : [ {
+      "id" : "4359eb63-b42b-4a99-86da-4baec2343984",
+      "name" : "JDG User Storage",
+      "providerId" : "jdg",
+      "subComponents" : { },
+      "config" : { }
+    } ],
     "org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy" : [ {
       "id" : "3348ab63-b42b-4a99-86da-4baec2343983",
       "name" : "Allowed Client Templates",
