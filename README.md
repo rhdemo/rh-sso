@@ -28,7 +28,7 @@ according to cluster in which you are logged on, so it's not needed to configure
 
 ```
 export JDG_INTEGRATION_ENABLED=true
-export JDG_HOST=jdg-app-hotrod.infinispan.svc
+export JDG_HOST=jdg-app-hotrod.datagrid.svc
 export JDG_PORT=11222
 ```
 
@@ -47,7 +47,7 @@ when you deployed JDG clusters in previous step. Site needs to be specified as t
 ```
 export JDG_INTEGRATION_ENABLED=true
 export JDG_SITE=stage
-export JDG_HOST=jdg-app-hotrod.infinispan.svc
+export JDG_HOST=jdg-app-hotrod.datagrid.svc
 export JDG_PORT=11222
 ```
 * On local network, the communication between JDG clusters won't work. At least for me, it doesn't work. It's due the fact that JGroups RELAY
