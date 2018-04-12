@@ -443,6 +443,30 @@
             }
         },
         {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "id": "${APPLICATION_NAME}-https-redhatkeynote",
+            "metadata": {
+                "name": "secure-${APPLICATION_NAME}-redhatkeynote",
+                "labels": {
+                    "application": "${APPLICATION_NAME}"
+                },
+                "annotations": {
+                    "description": "Route for application's https service."
+                }
+            },
+            "spec": {
+                "host": "sso.redhatkeynote.com",
+                "to": {
+                    "name": "secure-${APPLICATION_NAME}"
+                },
+                "tls": {
+                    "termination": "reencrypt",
+                    "destinationCACertificate": "${CA_CERTIFICATE}"
+                }
+            }
+        },
+        {
             "kind": "DeploymentConfig",
             "apiVersion": "v1",
             "metadata": {
