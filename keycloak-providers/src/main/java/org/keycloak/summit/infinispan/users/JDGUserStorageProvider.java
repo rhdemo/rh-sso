@@ -194,11 +194,18 @@ public class JDGUserStorageProvider implements UserStorageProvider,
         String persistenceId = StorageId.externalId(user.getId());
 
         String idCacheKey = getByIdCacheKey(persistenceId);
+        JDGUserEntity jdgUser = (JDGUserEntity) transaction.get(idCacheKey);
+
         transaction.remove(idCacheKey);
 
         if (user.getEmail() != null) {
             String emailCacheKey = getByEmailCacheKey(user.getEmail());
             transaction.remove(emailCacheKey);
+        }
+
+        for (JDGFederatedLinkEntity jdgLink : jdgUser.getFederationLinks()) {
+            String fedLinkCacheKey = getByFedLinkCacheKey(jdgLink.getIdentityProvider(), jdgLink.getUserId());
+            transaction.remove(fedLinkCacheKey);
         }
 
         return true;
@@ -293,18 +300,23 @@ public class JDGUserStorageProvider implements UserStorageProvider,
 
     @Override
     public int getUsersCount(RealmModel realm) {
-        return loadAllUsers(realm).size();
+        //return loadAllUsers(realm).size();
+        return 0;
     }
 
     @Override
     public List<UserModel> getUsers(RealmModel realm) {
-        return loadAllUsers(realm);
+        //return loadAllUsers(realm);
+        return Collections.emptyList();
     }
 
     @Override
     public List<UserModel> getUsers(RealmModel realm, int firstResult, int maxResults) {
-        List<UserModel> users = loadAllUsers(realm);
-        return paginateUsers(users.stream(), firstResult, maxResults);
+//        List<UserModel> users = loadAllUsers(realm);
+//        return paginateUsers(users.stream(), firstResult, maxResults);
+
+        // Right now, we will support just searching by ID or email
+        return Collections.emptyList();
     }
 
     private List<UserModel> paginateUsers(Stream<UserModel> stream, int firstResult, int maxResults) {
@@ -322,7 +334,7 @@ public class JDGUserStorageProvider implements UserStorageProvider,
 
     private List<UserModel> loadAllUsers(RealmModel realm) {
         if (users == null) {
-            // TODO:mposolda Performance killer...
+            // TODO: Performance killer...
             logger.infof("Calling loadAllUsers!");
             this.users = (List<UserModel>) transaction.remoteCache.getBulk().values().stream().filter((Object value) -> {
 
@@ -346,19 +358,28 @@ public class JDGUserStorageProvider implements UserStorageProvider,
 
     @Override
     public List<UserModel> searchForUser(String search, RealmModel realm, int firstResult, int maxResults) {
-        List<UserModel> users = loadAllUsers(realm);
+        UserModel user = getUserById(search, realm);
+        if (user == null) {
+            user = getUserByEmail(search, realm);
+        }
 
-        Stream<UserModel> stream = users.stream().filter((UserModel user) -> {
+        return Collections.singletonList(user);
 
-            boolean contains = user.getUsername().contains(search);
-            contains = contains || (user.getEmail() != null && user.getEmail().contains(search));
-            contains = contains || (getFullName(user).contains(search));
+        // Right now, we will support just searching by exact ID or email
 
-            return contains;
-
-        });
-
-        return paginateUsers(stream, firstResult, maxResults);
+//        List<UserModel> users = loadAllUsers(realm);
+//
+//        Stream<UserModel> stream = users.stream().filter((UserModel user) -> {
+//
+//            boolean contains = user.getUsername().contains(search);
+//            contains = contains || (user.getEmail() != null && user.getEmail().contains(search));
+//            contains = contains || (getFullName(user).contains(search));
+//
+//            return contains;
+//
+//        });
+//
+//        return paginateUsers(stream, firstResult, maxResults);
     }
 
     private String getFullName(UserModel user) {
