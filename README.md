@@ -53,5 +53,29 @@ export JDG_PORT=11222
 * On local network, the communication between JDG clusters won't work. At least for me, it doesn't work. It's due the fact that JGroups RELAY
 stack in JDG servers is configured with some special JGroups protocols to work on real network, however it seems that working on local "simulated"
 network doesn't work. This is not an issue. The most important is, if SSO server is able to connect to JDG server on stage site (project `infinispan`).
-In real clusters environment, the communication between JDG servers through RELAY works and it's provided by `jdg-as-a-service` project.  
+In real clusters environment, the communication between JDG servers through RELAY works and it's provided by `jdg-as-a-service` project.
+
+Monitor JDG Remote cache
+------------------------
+We have some possibility to monitor JDG remote caches for debugging purposes. 
+Assuming ROUTE is something like `https://secure-sso-sso-with-jdg.127.0.0.1.nip.io`
+
+Size of the specified cache
+```
+curl --insecure $ROUTE/auth/realms/summit/remote-cache/sessions/size
+```
+
+Keys of the specified cache (Use with care if there is big amount of keys):
+```
+curl --insecure $ROUTE/auth/realms/summit/remote-cache/sessions/keys
+```
+
+Contains specified key:
+```
+curl --insecure $ROUTE/auth/realms/summit/remote-cache/userStorage/contains/id.john@email.cz
+```
+
+
+
+  
    
