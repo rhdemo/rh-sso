@@ -10,7 +10,7 @@ export JDG_INTEGRATION_ENABLED=false
 export JDG_SITE=stage
 
 # Those usually don't need to be changed. On all 3 "real" clusters is infinispan exposed by hostname "jdg-app-hotrod.infinispan.svc" on port 11222
-export JDG_HOST=jdg-app-hotrod.infinispan.svc
+export JDG_HOST=jdg-app-hotrod.datagrid.svc
 export JDG_PORT=11222
 
 export SMTP_USER=<Username for SMTP server>

@@ -9,6 +9,7 @@ import org.infinispan.Cache;
 import org.infinispan.client.hotrod.RemoteCache;
 import org.jboss.logging.Logger;
 import org.keycloak.Config;
+import org.keycloak.cluster.ClusterProvider;
 import org.keycloak.common.util.reflections.Reflections;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.models.KeycloakSession;
@@ -20,6 +21,11 @@ import org.keycloak.models.UserSessionProvider;
 import org.keycloak.models.UserSessionProviderFactory;
 import org.keycloak.models.sessions.infinispan.InfinispanUserSessionProvider;
 import org.keycloak.models.sessions.infinispan.InfinispanUserSessionProviderFactory;
+import org.keycloak.models.sessions.infinispan.events.AbstractUserSessionClusterListener;
+import org.keycloak.models.sessions.infinispan.events.ClientRemovedSessionEvent;
+import org.keycloak.models.sessions.infinispan.events.RealmRemovedSessionEvent;
+import org.keycloak.models.sessions.infinispan.events.RemoveAllUserLoginFailuresEvent;
+import org.keycloak.models.sessions.infinispan.events.RemoveUserSessionsEvent;
 import org.keycloak.models.sessions.infinispan.initializer.InfinispanCacheInitializer;
 import org.keycloak.models.sessions.infinispan.remotestore.RemoteCacheInvoker;
 import org.keycloak.models.sessions.infinispan.util.InfinispanKeyGenerator;
@@ -168,6 +174,63 @@ public class UpdatedInfinispanUserSessionProviderFactory extends InfinispanUserS
             remoteCache.addClientListener(updatedListener);
 
         }
+    }
+
+
+    @Override
+    protected void registerClusterListeners(KeycloakSession session) {
+        KeycloakSessionFactory sessionFactory = session.getKeycloakSessionFactory();
+        ClusterProvider cluster = session.getProvider(ClusterProvider.class);
+
+        cluster.registerListener(REALM_REMOVED_SESSION_EVENT, new UpdatedUserSessionClusterListener<RealmRemovedSessionEvent>(sessionFactory) {
+
+            @Override
+            protected void eventReceived(KeycloakSession session, InfinispanUserSessionProvider provider, RealmRemovedSessionEvent sessionEvent) {
+                Method onRealmRemoved = Reflections.findDeclaredMethod(InfinispanUserSessionProvider.class, "onRealmRemovedEvent", String.class);
+                Reflections.setAccessible(onRealmRemoved);
+                Reflections.invokeMethod(true, onRealmRemoved, provider, sessionEvent.getRealmId());
+                // provider.onRealmRemovedEvent(sessionEvent.getRealmId());
+            }
+
+        });
+
+        cluster.registerListener(CLIENT_REMOVED_SESSION_EVENT, new UpdatedUserSessionClusterListener<ClientRemovedSessionEvent>(sessionFactory) {
+
+            @Override
+            protected void eventReceived(KeycloakSession session, InfinispanUserSessionProvider provider, ClientRemovedSessionEvent sessionEvent) {
+                Method onClientRemoved = Reflections.findDeclaredMethod(InfinispanUserSessionProvider.class, "onClientRemovedEvent", String.class, String.class);
+                Reflections.setAccessible(onClientRemoved);
+                Reflections.invokeMethod(true, onClientRemoved, provider, sessionEvent.getRealmId(), sessionEvent.getClientUuid());
+                //provider.onClientRemovedEvent(sessionEvent.getRealmId(), sessionEvent.getClientUuid());
+            }
+
+        });
+
+        cluster.registerListener(REMOVE_USER_SESSIONS_EVENT, new UpdatedUserSessionClusterListener<RemoveUserSessionsEvent>(sessionFactory) {
+
+            @Override
+            protected void eventReceived(KeycloakSession session, InfinispanUserSessionProvider provider, RemoveUserSessionsEvent sessionEvent) {
+                Method onRemoveUserSessionsEvent = Reflections.findDeclaredMethod(InfinispanUserSessionProvider.class, "onRemoveUserSessionsEvent", String.class);
+                Reflections.setAccessible(onRemoveUserSessionsEvent);
+                Reflections.invokeMethod(true, onRemoveUserSessionsEvent, provider, sessionEvent.getRealmId());
+                //provider.onRemoveUserSessionsEvent(sessionEvent.getRealmId());
+            }
+
+        });
+
+        cluster.registerListener(REMOVE_ALL_LOGIN_FAILURES_EVENT, new UpdatedUserSessionClusterListener<RemoveAllUserLoginFailuresEvent>(sessionFactory) {
+
+            @Override
+            protected void eventReceived(KeycloakSession session, InfinispanUserSessionProvider provider, RemoveAllUserLoginFailuresEvent sessionEvent) {
+                Method onRemoveAllUserLoginFailuresEvent = Reflections.findDeclaredMethod(InfinispanUserSessionProvider.class, "onRemoveAllUserLoginFailuresEvent", String.class);
+                Reflections.setAccessible(onRemoveAllUserLoginFailuresEvent);
+                Reflections.invokeMethod(true, onRemoveAllUserLoginFailuresEvent, provider, sessionEvent.getRealmId());
+                //provider.onRemoveAllUserLoginFailuresEvent(sessionEvent.getRealmId());
+            }
+
+        });
+
+        log.debug("Registered cluster listeners");
     }
 
 }
