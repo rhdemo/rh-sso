@@ -101,13 +101,15 @@ public class JDGUserStorageProviderFactory implements UserStorageProviderFactory
 
         ConfigurationBuilder builder = new ConfigurationBuilder().read(cfgTemplate);
 
-        RemoteStoreConfigurationBuilder remoteStoreBuilder = (RemoteStoreConfigurationBuilder) builder.persistence().stores().get(0);
-        remoteStoreBuilder.remoteCacheName(CACHE_NAME)
-                .marshaller("org.keycloak.summit.infinispan.users.UpdatedKeycloakHotrodMarshallerFactory");
+        if (builder.persistence().stores().size() > 0) {
+            RemoteStoreConfigurationBuilder remoteStoreBuilder = (RemoteStoreConfigurationBuilder) builder.persistence().stores().get(0);
+            remoteStoreBuilder.remoteCacheName(CACHE_NAME)
+                    .marshaller("org.keycloak.summit.infinispan.users.UpdatedKeycloakHotrodMarshallerFactory");
 
 
-        Configuration newCfg = builder.build();
-        mgr.defineConfiguration(CACHE_NAME, newCfg);
+            Configuration newCfg = builder.build();
+            mgr.defineConfiguration(CACHE_NAME, newCfg);
+        }
     }
 
 }
