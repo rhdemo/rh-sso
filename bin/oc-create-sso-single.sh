@@ -10,7 +10,7 @@ detectJdgSite() {
 
     if [ $currentServer == "https://openshift-master.summit-aws.sysdeseng.com:443" ]; then
         JDG_SITE=aws;
-    elif [ $currentServer == "https://master.summit-gce.sysdeseng.com:443" ]; then
+    elif [ $currentServer == "https://openshift-master.summit-gce.sysdeseng.com:443" ]; then
         JDG_SITE=stage;
     elif [ $currentServer == "https://openshift-master.summit-azr.sysdeseng.com:443" ]; then
         JDG_SITE=azure;

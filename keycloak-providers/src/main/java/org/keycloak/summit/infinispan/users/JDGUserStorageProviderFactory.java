@@ -62,7 +62,7 @@ public class JDGUserStorageProviderFactory implements UserStorageProviderFactory
         }
     }
 
-    static RemoteCache getRemoteCache(KeycloakSession session) {
+    public static RemoteCache getRemoteCache(KeycloakSession session) {
         InfinispanConnectionProvider ispn = session.getProvider(InfinispanConnectionProvider.class);
 
         defineUserStorageCacheConfig(ispn);
@@ -97,17 +97,28 @@ public class JDGUserStorageProviderFactory implements UserStorageProviderFactory
     // Workaround: userStorage cache is not in the dependencies. We need to define it manually
     private static void defineUserStorageCacheConfig(InfinispanConnectionProvider ispn) {
         EmbeddedCacheManager mgr = ispn.getCache(InfinispanConnectionProvider.USER_SESSION_CACHE_NAME).getCacheManager();
+
+        // Case when it was already executed
+        if (mgr.getCacheConfiguration(CACHE_NAME) != null) {
+            logger.debugf("%s cache configuration already defined", CACHE_NAME);
+            return;
+        }
+
+        logger.debugf("%s cache configuration not yet defined. Will define it now", CACHE_NAME);
+
         Configuration cfgTemplate = mgr.getCacheConfiguration(InfinispanConnectionProvider.USER_SESSION_CACHE_NAME);
 
         ConfigurationBuilder builder = new ConfigurationBuilder().read(cfgTemplate);
 
-        RemoteStoreConfigurationBuilder remoteStoreBuilder = (RemoteStoreConfigurationBuilder) builder.persistence().stores().get(0);
-        remoteStoreBuilder.remoteCacheName(CACHE_NAME)
-                .marshaller("org.keycloak.summit.infinispan.users.UpdatedKeycloakHotrodMarshallerFactory");
+        if (builder.persistence().stores().size() > 0) {
+            RemoteStoreConfigurationBuilder remoteStoreBuilder = (RemoteStoreConfigurationBuilder) builder.persistence().stores().get(0);
+            remoteStoreBuilder.remoteCacheName(CACHE_NAME)
+                    .marshaller("org.keycloak.summit.infinispan.users.UpdatedKeycloakHotrodMarshallerFactory");
 
 
-        Configuration newCfg = builder.build();
-        mgr.defineConfiguration(CACHE_NAME, newCfg);
+            Configuration newCfg = builder.build();
+            mgr.defineConfiguration(CACHE_NAME, newCfg);
+        }
     }
 
 }
