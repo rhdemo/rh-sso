@@ -623,6 +623,9 @@
       "https://scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/*",
       "https://scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-azr.sysdeseng.com/*",
       "https://scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-gce.sysdeseng.com/*",
+      "https://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/*",
+      "https://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-azr.sysdeseng.com/*",
+      "https://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-gce.sysdeseng.com/*",
       "http://localhost:8080/*",
       "http://localhost:8081/*",
       "http://localhost:8082/*"
