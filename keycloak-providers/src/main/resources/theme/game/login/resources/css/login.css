@@ -1,5 +1,5 @@
 .login-pf body {
-    background: url("../img/keycloak-bg.png") no-repeat center center fixed;
+    background: url("../img/scavenger-bkgrnd.png") no-repeat center center fixed;
     background-size: cover;
 }
 
@@ -285,13 +285,12 @@ a.zocial  {
         padding-left: 15px;
         padding-right: 15px;
         float: none;
-        text-align: left;
     }
 
     #kc-header-wrapper {
       font-size: 16px;
       font-weight: bold;
-      padding: 20px 60px 0 0;
+      padding: 20px 0 0 0;
       color: #72767b;
       letter-spacing: 0;
     }
