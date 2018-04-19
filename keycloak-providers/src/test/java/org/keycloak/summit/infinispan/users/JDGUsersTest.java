@@ -343,7 +343,9 @@ public class JDGUsersTest {
         googleLink.setIdentityProvider("google");
         googleLink.setUserId(fedId);
         googleLink.setUserName(fedUsername);
-        userRes.addFederatedIdentity("google", googleLink);
+        Response response = userRes.addFederatedIdentity("google", googleLink);
+        Assert.assertEquals(204, response.getStatus());
+        response.close();
 
         System.out.println("Updated user: " + email);
     }
