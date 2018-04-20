@@ -71,6 +71,8 @@
 
           <#nested "form">
 
+          <div id="powered-by"><span id="powered-by-text">Powered by</span> <span id="powered-by-logo"><strong>Red Hat</strong><sup>®</sup> Single Sign On</span></div>
+
           <#if displayInfo>
               <div id="kc-info" class="${properties.kcSignUpClass!}">
                   <div id="kc-info-wrapper" class="${properties.kcInfoAreaWrapperClass!}">
