@@ -57,3 +57,11 @@ oc new-app -f $DIR/sso-single.json \
 -p JGROUPS_ENCRYPT_PASSWORD=$CERT_PASS \
 -p MEMORY_LIMIT=2Gi \
 -p CA_CERTIFICATE="$CA_CERT"
+
+# The production project namespace is 'sso', but in some cases, we deploy SSO in other namespaces for testing/debugging purposes.
+# For example 'sso-with-jdg' for performance testing. In this case, we need to remove secure-sso-redhatkeynote route to not clash
+# with main 'sso' namespace
+if [ "$PROJECT" != "sso" ]; then
+   echo "We are not in project 'sso' . Deleting route secure-sso-redhatkeynote"
+   oc delete route/secure-sso-redhatkeynote
+fi;
