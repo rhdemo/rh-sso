@@ -32,6 +32,7 @@
 
     <properties>
         <keycloak.version>3.4.3.Final</keycloak.version>
+        <exclude.jdg.users.test>**/JDGUsersTest.java</exclude.jdg.users.test>
     </properties>
 
 
@@ -94,6 +95,16 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>jdg-test</id>
+            <properties>
+                <!--Test will be executed -->
+                <exclude.jdg.users.test>-</exclude.jdg.users.test>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>keycloak-summit-providers</finalName>
 
@@ -112,6 +123,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>${exclude.jdg.users.test}</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

@@ -2,12 +2,18 @@
 
 . `dirname $0`/load-config.sh
 
+echo "----------------------------------"
+echo "Deploying SSO in project '$PROJECT' on server '$(oc whoami --show-server)' as user '$(oc whoami)'";
+echo "----------------------------------"
+
 if (! oc get project $PROJECT 2>/dev/null | grep Active &>/dev/null); then
     echo "----------------------------------"
     echo "Project not found, creating"
     echo "----------------------------------"
     bin/oc-project-setup.sh
 fi
+
+oc project $PROJECT;
 
 echo "----------------------------------"
 echo "Deleting old version if it exists"
@@ -26,9 +32,3 @@ echo "Creating SSO"
 echo "----------------------------------"
 
 $DIR/bin/oc-create-sso-single.sh
-
-echo "----------------------------------"
-echo "Configuring SSO"
-echo "----------------------------------"
-
-$DIR/bin/oc-config-sso.sh

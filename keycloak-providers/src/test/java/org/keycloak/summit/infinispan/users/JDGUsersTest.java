@@ -37,7 +37,6 @@ import org.keycloak.representations.idm.UserRepresentation;
  *
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
  */
-@Ignore // Ignored by default. Intended to be executed from Intellij IDEA IDE or temporarily remove annotation if running from command line TODO: Improve if needed
 public class JDGUsersTest {
 
     private TestConfig config;
