@@ -33,11 +33,15 @@ $DIR/bin/oc-config-sso.sh;
 ocLogin "$GCE_LOGIN_CMD" "GCE";
 $DIR/bin/oc-config-sso.sh;
 
-echo "----------------------------------"
-echo "Executing the JDG integration test";
-echo "----------------------------------"
-cd $DIR
-mvn clean install -Pjdg-test
+if [ $JDG_INTEGRATION_ENABLED == "true" ]; then
+    echo "----------------------------------"
+    echo "Executing the JDG integration test";
+    echo "----------------------------------"
+    cd $DIR
+    mvn clean install -Pjdg-test
+else
+    echo "JDG Integration is disabled. Skip running test";
+fi;
 
 
 
