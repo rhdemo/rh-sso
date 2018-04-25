@@ -56,6 +56,8 @@ oc new-app -f $DIR/sso-single.json \
 -p JGROUPS_ENCRYPT_SECRET=sso-jgroup-secret \
 -p JGROUPS_ENCRYPT_PASSWORD=$CERT_PASS \
 -p MEMORY_LIMIT=2Gi \
+-p DB_MIN_POOL_SIZE=10 \
+-p DB_MAX_POOL_SIZE=50 \
 -p CA_CERTIFICATE="$CA_CERT"
 
 # The production project namespace is 'sso', but in some cases, we deploy SSO in other namespaces for testing/debugging purposes.
