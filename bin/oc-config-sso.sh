@@ -2,6 +2,10 @@
 
 . `dirname $0`/load-config.sh
 
+echo "----------------------------------"
+echo "Configuring SSO in project '$PROJECT' on server '$(oc whoami --show-server)' as user '$(oc whoami)'";
+echo "----------------------------------"
+
 TMP=`mktemp -d`
 TMP_CONFIG=$TMP/kcadmin-config
 TMP_CERT=$TMP/cert
@@ -19,7 +23,7 @@ done
 
 HOST=`oc get route secure-sso -o jsonpath='{.spec.host}'`
 
-openssl s_client --connect $HOST:443 </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $TMP_CERT
+openssl s_client -connect $HOST:443 </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $TMP_CERT
 
 keytool -import -noprompt -trustcacerts -alias $HOST -file $TMP_CERT -keystore $TMP_KEYSTORE -storepass $CERT_PASS
 

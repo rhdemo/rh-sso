@@ -1,5 +1,10 @@
-export CERT_PASS=6mtRY3Rr
-export ADMIN_PASS=TapABF6p
+# Those variables are needed just if you want to deploy on all 3 openshift clusters with script run-sso-all.sh
+export AWS_LOGIN_CMD=<<AWS Login command>>;
+export AZR_LOGIN_CMD=<<AZR Login command>>;
+export GCE_LOGIN_CMD=<<GCE Login command>>;
+
+export CERT_PASS=<<Certificate password>>
+export ADMIN_PASS=<<Admin password>>
 export PROJECT=sso
 
 # Switch to true if you want JDG integration enabled. That way, the "sso" will be configured to connect against JDG (Infinispan caches will have remoteStore added etc)
@@ -9,7 +14,7 @@ export JDG_INTEGRATION_ENABLED=false
 # It will be autodetected based on where you are authenticated with `oc`.
 export JDG_SITE=stage
 
-# Those usually don't need to be changed. On all 3 "real" clusters is infinispan exposed by hostname "jdg-app-hotrod.infinispan.svc" on port 11222
+# Those usually don't need to be changed. On all 3 "real" clusters is infinispan exposed by hostname "jdg-app-hotrod.datagrid.svc" on port 11222
 export JDG_HOST=jdg-app-hotrod.datagrid.svc
 export JDG_PORT=11222
 
