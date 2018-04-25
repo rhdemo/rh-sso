@@ -1,7 +1,7 @@
 # Those variables are needed just if you want to deploy on all 3 openshift clusters with script run-sso-all.sh
-export AWS_LOGIN_CMD="oc login https://openshift-master.summit-aws.sysdeseng.com --token=9mRFI75Rdw-KvnrF7DBtwn0AFF6uEDXJyflIvgjtL7B";
-export AZR_LOGIN_CMD="oc login https://openshift-master.summit-azr.sysdeseng.com --token=FD4nHFvMK8HyQ0qSfYrW3dXIB7DUyMefdhC5NRVRZS5";
-export GCE_LOGIN_CMD="oc login https://openshift-master.summit-gce.sysdeseng.com --token=67x8hSvkd7WPdTTliCbSY75MyFXT0yDzz6vROYr4vMx";
+export AWS_LOGIN_CMD=<<AWS Login command>>;
+export AZR_LOGIN_CMD=<<AZR Login command>>;
+export GCE_LOGIN_CMD=<<GCE Login command>>;
 
 export CERT_PASS=<<Certificate password>>
 export ADMIN_PASS=<<Admin password>>
