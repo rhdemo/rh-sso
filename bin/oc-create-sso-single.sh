@@ -9,11 +9,11 @@ detectJdgSite() {
     echo "Logged to: $currentServer";
 
     if [ $currentServer == "https://openshift-master.summit-aws.sysdeseng.com:443" ]; then
-        JDG_SITE=aws;
+        JDG_SITE=Amazon;
     elif [ $currentServer == "https://openshift-master.summit-gce.sysdeseng.com:443" ]; then
-        JDG_SITE=stage;
+        JDG_SITE=Private;
     elif [ $currentServer == "https://openshift-master.summit-azr.sysdeseng.com:443" ]; then
-        JDG_SITE=azure;
+        JDG_SITE=Azure;
     else
         echo "ERROR: JDG_SITE is not set and wasn't able to autodetect the site.";
         exit 1;
