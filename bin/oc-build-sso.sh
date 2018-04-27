@@ -20,6 +20,9 @@ fi;
 echo "Copying custom Keycloak modules to the 'target' directory ..."
 cp -r keycloak-modules/modules target
 
+#echo "Copying keycloak-probe to the 'target' configuration directory"
+cp keycloak-probe/* target/configuration/
+
 mkdir target/deployments
 cp keycloak-providers/target/keycloak-summit-providers.jar target/deployments
 touch target/deployments/keycloak-summit-providers.jar.dodeploy

@@ -561,7 +561,7 @@
                                         "command": [
                                             "/bin/bash",
                                             "-c",
-                                            "/opt/eap/bin/livenessProbe.sh"
+                                            "/opt/eap/standalone/configuration/kc-probe.sh"
                                         ]
                                     },
                                     "initialDelaySeconds": 60
