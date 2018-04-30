@@ -50,7 +50,7 @@ when you deployed JDG clusters in previous step. Site needs to be specified as t
 
 ```
 export JDG_INTEGRATION_ENABLED=true
-export JDG_SITE=stage
+export JDG_SITE=Private
 export JDG_HOST=jdg-app-hotrod.datagrid.svc
 export JDG_PORT=11222
 ```
