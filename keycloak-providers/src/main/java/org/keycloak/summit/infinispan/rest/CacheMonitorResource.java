@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import org.infinispan.Cache;
 import org.infinispan.client.hotrod.RemoteCache;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.keycloak.connections.infinispan.InfinispanConnectionProvider;
 import org.keycloak.models.KeycloakSession;
@@ -52,6 +53,7 @@ public class CacheMonitorResource {
 
     @GET
     @Path("/contains/{id}")
+    @NoCache
     @Produces(MediaType.APPLICATION_JSON)
     public boolean contains(@PathParam("id") String id) {
         return remoteCache.containsKey(id);
@@ -59,7 +61,23 @@ public class CacheMonitorResource {
 
 
     @GET
+    @Path("/get/{id}")
+    @NoCache
+    @Produces(MediaType.APPLICATION_JSON)
+    public String get(@PathParam("id") String id) {
+        Object o = remoteCache.get(id);
+        if (o == null) {
+            return "null";
+        } else {
+            String s = o.toString();
+            return s;
+        }
+    }
+
+
+    @GET
     @Path("/keys")
+    @NoCache
     @Produces(MediaType.APPLICATION_JSON)
     public Set<String> enumerateKeys() {
         return remoteCache.keySet().stream().map((Object o) -> {
@@ -72,6 +90,7 @@ public class CacheMonitorResource {
 
     @GET
     @Path("/size")
+    @NoCache
     @Produces(MediaType.APPLICATION_JSON)
     public int size() {
         return remoteCache.size();

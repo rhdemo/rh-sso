@@ -55,7 +55,8 @@ public class JDGUsersTest {
     private static final String AZR_ROUTE_URL = "azr.route.url";
     private static final String GCE_ROUTE_URL = "gce.route.url";
 
-
+    private static final String USER_PREFIX = "test";
+    private static final String FED_LINK_PREFIX = "google";
 
     @Before
     public void initClients() throws IOException {
@@ -184,130 +185,130 @@ public class JDGUsersTest {
     public void testUsers() {
         // Create test users
         if (config.isTestAws()) {
-            createUser(awsAdminClient, "test-aws@redhat.com");
+            createUser(awsAdminClient, USER_PREFIX + "-aws@redhat.com");
         }
         if (config.isTestAzr()) {
-            createUser(azrAdminClient, "test-azr@redhat.com");
+            createUser(azrAdminClient, USER_PREFIX + "-azr@redhat.com");
         }
         if (config.isTestGce()) {
-            createUser(gceAdminClient, "test-gce@redhat.com");
+            createUser(gceAdminClient, USER_PREFIX + "-gce@redhat.com");
         }
 
         // Assert created users available everywhere
         if (config.isTestAws()) {
-            assertUser(awsAdminClient, "aws","test-aws@redhat.com", null, null, null);
+            assertUser(awsAdminClient, "aws", USER_PREFIX + "-aws@redhat.com", null, null, null);
 
             if (config.isTestAzr()) {
-                assertUser(azrAdminClient, "azr","test-aws@redhat.com", null, null, null);
+                assertUser(azrAdminClient, "azr", USER_PREFIX + "-aws@redhat.com", null, null, null);
             }
             if (config.isTestGce()) {
-                assertUser(gceAdminClient, "gce","test-aws@redhat.com", null, null, null);
+                assertUser(gceAdminClient, "gce", USER_PREFIX + "-aws@redhat.com", null, null, null);
             }
         }
         if (config.isTestAzr()) {
-            assertUser(azrAdminClient, "azr","test-azr@redhat.com", null, null, null);
+            assertUser(azrAdminClient, "azr", USER_PREFIX + "-azr@redhat.com", null, null, null);
 
             if (config.isTestAws()) {
-                assertUser(awsAdminClient, "aws","test-azr@redhat.com", null, null, null);
+                assertUser(awsAdminClient, "aws", USER_PREFIX + "-azr@redhat.com", null, null, null);
             }
             if (config.isTestGce()) {
-                assertUser(gceAdminClient, "gce","test-azr@redhat.com", null, null, null);
+                assertUser(gceAdminClient, "gce", USER_PREFIX + "-azr@redhat.com", null, null, null);
             }
         }
         if (config.isTestGce()) {
-            assertUser(gceAdminClient, "gce","test-gce@redhat.com", null, null, null);
+            assertUser(gceAdminClient, "gce", USER_PREFIX + "-gce@redhat.com", null, null, null);
 
             if (config.isTestAws()) {
-                assertUser(awsAdminClient, "aws","test-gce@redhat.com", null, null, null);
+                assertUser(awsAdminClient, "aws", USER_PREFIX + "-gce@redhat.com", null, null, null);
             }
             if (config.isTestAzr()) {
-                assertUser(azrAdminClient, "azr","test-gce@redhat.com", null, null, null);
+                assertUser(azrAdminClient, "azr", USER_PREFIX + "-gce@redhat.com", null, null, null);
             }
         }
 
         // Update users including federationLinks
         if (config.isTestAws()) {
-            updateUser(awsAdminClient, "test-aws@redhat.com", "Test", "Aws", "google-aws-id", "google-aws-username");
+            updateUser(awsAdminClient, USER_PREFIX + "-aws@redhat.com", "Test", "Aws", FED_LINK_PREFIX + "-aws-id", FED_LINK_PREFIX + "-aws-username");
         }
         if (config.isTestAzr()) {
-            updateUser(azrAdminClient, "test-azr@redhat.com", "Test", "Azr", "google-azr-id", "google-azr-username");
+            updateUser(azrAdminClient, USER_PREFIX + "-azr@redhat.com", "Test", "Azr", FED_LINK_PREFIX + "-azr-id", FED_LINK_PREFIX + "-azr-username");
         }
         if (config.isTestGce()) {
-            updateUser(gceAdminClient, "test-gce@redhat.com", "Test", "Gce", "google-gce-id", "google-gce-username");
+            updateUser(gceAdminClient, USER_PREFIX + "-gce@redhat.com", "Test", "Gce", FED_LINK_PREFIX + "-gce-id", FED_LINK_PREFIX + "-gce-username");
         }
 
         // Assert updated users available everywhere
         if (config.isTestAws()) {
-            assertUser(awsAdminClient, "aws","test-aws@redhat.com", "Test", "Aws", "google-aws-id");
+            assertUser(awsAdminClient, "aws",USER_PREFIX + "-aws@redhat.com", "Test", "Aws", FED_LINK_PREFIX + "-aws-id");
 
             if (config.isTestAzr()) {
-                assertUser(azrAdminClient, "azr","test-aws@redhat.com", "Test", "Aws", "google-aws-id");
+                assertUser(azrAdminClient, "azr",USER_PREFIX + "-aws@redhat.com", "Test", "Aws", FED_LINK_PREFIX + "-aws-id");
             }
             if (config.isTestGce()) {
-                assertUser(gceAdminClient, "gce","test-aws@redhat.com", "Test", "Aws", "google-aws-id");
+                assertUser(gceAdminClient, "gce",USER_PREFIX + "-aws@redhat.com", "Test", "Aws", FED_LINK_PREFIX + "-aws-id");
             }
         }
         if (config.isTestAzr()) {
-            assertUser(azrAdminClient, "azr","test-azr@redhat.com", "Test", "Azr", "google-azr-id");
+            assertUser(azrAdminClient, "azr",USER_PREFIX + "-azr@redhat.com", "Test", "Azr", FED_LINK_PREFIX + "-azr-id");
 
             if (config.isTestAws()) {
-                assertUser(awsAdminClient, "aws","test-azr@redhat.com", "Test", "Azr", "google-azr-id");
+                assertUser(awsAdminClient, "aws", USER_PREFIX + "-azr@redhat.com", "Test", "Azr", FED_LINK_PREFIX + "-azr-id");
             }
             if (config.isTestGce()) {
-                assertUser(gceAdminClient, "gce","test-azr@redhat.com", "Test", "Azr", "google-azr-id");
+                assertUser(gceAdminClient, "gce", USER_PREFIX + "-azr@redhat.com", "Test", "Azr", FED_LINK_PREFIX + "-azr-id");
             }
         }
         if (config.isTestGce()) {
-            assertUser(gceAdminClient, "gce","test-gce@redhat.com", "Test", "Gce", "google-gce-id");
+            assertUser(gceAdminClient, "gce", USER_PREFIX + "-gce@redhat.com", "Test", "Gce", FED_LINK_PREFIX + "-gce-id");
 
             if (config.isTestAws()) {
-                assertUser(awsAdminClient, "aws","test-gce@redhat.com", "Test", "Gce", "google-gce-id");
+                assertUser(awsAdminClient, "aws", USER_PREFIX + "-gce@redhat.com", "Test", "Gce", FED_LINK_PREFIX + "-gce-id");
             }
             if (config.isTestAzr()) {
-                assertUser(azrAdminClient, "azr","test-gce@redhat.com", "Test", "Gce", "google-gce-id");
+                assertUser(azrAdminClient, "azr", USER_PREFIX + "-gce@redhat.com", "Test", "Gce", FED_LINK_PREFIX + "-gce-id");
             }
         }
 
         // Remove users
         if (config.isTestAws()) {
-            removeUser(awsAdminClient, "test-aws@redhat.com");
+            removeUser(awsAdminClient, USER_PREFIX + "-aws@redhat.com");
         }
         if (config.isTestAzr()) {
-            removeUser(azrAdminClient, "test-azr@redhat.com");
+            removeUser(azrAdminClient, USER_PREFIX + "-azr@redhat.com");
         }
         if (config.isTestGce()) {
-            removeUser(gceAdminClient, "test-gce@redhat.com");
+            removeUser(gceAdminClient, USER_PREFIX + "-gce@redhat.com");
         }
 
         // Assert users removed everywhere
         if (config.isTestAws()) {
-            Assert.assertNull(searchUserByEmail(awsAdminClient, "test-aws@redhat.com"));
+            Assert.assertNull(searchUserByEmail(awsAdminClient, USER_PREFIX + "-aws@redhat.com"));
 
             if (config.isTestAzr()) {
-                Assert.assertNull(searchUserByEmail(azrAdminClient, "test-aws@redhat.com"));
+                Assert.assertNull(searchUserByEmail(azrAdminClient, USER_PREFIX + "-aws@redhat.com"));
             }
             if (config.isTestGce()) {
-                Assert.assertNull(searchUserByEmail(gceAdminClient, "test-aws@redhat.com"));
+                Assert.assertNull(searchUserByEmail(gceAdminClient, USER_PREFIX + "-aws@redhat.com"));
             }
         }
         if (config.isTestAzr()) {
-            Assert.assertNull(searchUserByEmail(azrAdminClient, "test-azr@redhat.com"));
+            Assert.assertNull(searchUserByEmail(azrAdminClient, USER_PREFIX + "-azr@redhat.com"));
 
             if (config.isTestAws()) {
-                Assert.assertNull(searchUserByEmail(awsAdminClient, "test-azr@redhat.com"));
+                Assert.assertNull(searchUserByEmail(awsAdminClient, USER_PREFIX + "-azr@redhat.com"));
             }
             if (config.isTestGce()) {
-                Assert.assertNull(searchUserByEmail(gceAdminClient, "test-azr@redhat.com"));
+                Assert.assertNull(searchUserByEmail(gceAdminClient, USER_PREFIX + "-azr@redhat.com"));
             }
         }
         if (config.isTestGce()) {
-            Assert.assertNull(searchUserByEmail(gceAdminClient, "test-gce@redhat.com"));
+            Assert.assertNull(searchUserByEmail(gceAdminClient, USER_PREFIX + "-gce@redhat.com"));
 
             if (config.isTestAws()) {
-                Assert.assertNull(searchUserByEmail(awsAdminClient, "test-gce@redhat.com"));
+                Assert.assertNull(searchUserByEmail(awsAdminClient, USER_PREFIX + "-gce@redhat.com"));
             }
             if (config.isTestAzr()) {
-                Assert.assertNull(searchUserByEmail(azrAdminClient, "test-gce@redhat.com"));
+                Assert.assertNull(searchUserByEmail(azrAdminClient, USER_PREFIX + "-gce@redhat.com"));
             }
         }
     }

@@ -80,6 +80,18 @@ It could theoretically cause OOM or such):
 curl --insecure $ROUTE/auth/realms/summit/remote-cache/sessions/keys
 ```
 
+Periodic monitoring of clusters
+-------------------------------
+We have script, which can be used to periodically run the test every 5 minutes to check if all 3 clusters 
+(AWS, Azure and Google) are connected with each other. The test ( JDGUsersTest ) does some CRUD
+of users on every cluster and then check if updates are visible on other clusters. So if there is 
+SSO or JDG issue (EG. split-brain) the test should immediatelly detect this and ends with failure.
+So just run this:
+
+```
+bin/periodic-test.sh
+```
+
 
 
   
