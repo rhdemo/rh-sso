@@ -1,11 +1,31 @@
-# Those variables are needed just if you want to deploy on all 3 openshift clusters with script run-sso-all.sh
-export AWS_LOGIN_CMD=<<AWS Login command>>;
-export AZR_LOGIN_CMD=<<AZR Login command>>;
-export GCE_LOGIN_CMD=<<GCE Login command>>;
-
+# Password of java keystore file. Use some good random password value
 export CERT_PASS=<<Certificate password>>
+
+# Password of user 'admin' of rh-sso realm 'master'. Use some good random password value
 export ADMIN_PASS=<<Admin password>>
+
+# Name of the openshift project (namespace)
 export PROJECT=sso
+
+# URLs of 3 openshift servers. Those variables are needed just if you want to deploy on all 3 openshift clusters with script run-sso-all.sh
+export AWS_OPENSHIFT_URL="https://my-aws.example.com";
+export AZR_OPENSHIFT_URL="https://my-azr.example.com";
+export GCE_OPENSHIFT_URL="https://my-gce.example.com";
+
+# Tokens to 3 openshift servers. The easiest way to retrieve the tokens is to login to particular openshift cluster admin console
+#, then click "Copy Login Command" in right top corner, then obtain token from it
+export AWS_TOKEN=<<AWS Token>>;
+export AZR_TOKEN=<<AZR Token>>;
+export GCE_TOKEN=<<GCE Token>>;
+
+# Hosts where the SSO servers will be up and running on particular 3 openshift clusters
+export AWS_SSO_URL="https://secure-sso-$PROJECT.apps.my-aws.example.com";
+export AZR_SSO_URL="https://secure-sso-$PROJECT.apps.my-azr.example.com";
+export GCE_SSO_URL="https://secure-sso-$PROJECT.apps.my-gce.example.com";
+
+# Root URL and Valid Redirect URIs of rh-sso client 'game'
+export GAME_CLIENT_ROOT_URL='"https://www.my-host.com"';
+export GAME_CLIENT_REDIRECT_URIS='["https://www.my-host.com/*","https://my-host.com/*","http://localhost:8080/*","http://localhost:8081/*","http://localhost:8082/*"]';
 
 # Switch to true if you want JDG integration enabled. That way, the "sso" will be configured to connect against JDG (Infinispan caches will have remoteStore added etc)
 export JDG_INTEGRATION_ENABLED=false

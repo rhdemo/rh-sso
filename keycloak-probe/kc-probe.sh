@@ -6,7 +6,6 @@ SSO_PROBE_LOG=/tmp/rh-sso-probe.log
 
 PYTHON_SCRIPT=$JBOSS_HOME/standalone/configuration/kc-send-request.py;
 HOSTNAME=$(hostname);
-#HOSTNAME="sso-sso-with-jdg.apps.summit-azr.sysdeseng.com";
 
 if [ $# -gt 0 ] ; then
     COUNT=$1

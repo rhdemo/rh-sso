@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
@@ -73,21 +75,6 @@ public class JDGUsersTest {
         config.setTestAzr(azrEnabled);
         config.setTestGce(gceEnabled);
 
-        String awsRouteOverride = System.getProperty(AWS_ROUTE_URL);
-        if (awsRouteOverride != null) {
-            config.setAwsRouteUrl(awsRouteOverride);
-        }
-
-        String azrRouteOverride = System.getProperty(AZR_ROUTE_URL);
-        if (azrRouteOverride != null) {
-            config.setAzrRouteUrl(azrRouteOverride);
-        }
-
-        String gceRouteOverride = System.getProperty(GCE_ROUTE_URL);
-        if (gceRouteOverride != null) {
-            config.setGceRouteUrl(gceRouteOverride);
-        }
-
         System.out.println(config);
 
         if (config.isTestAws()) {
@@ -144,26 +131,42 @@ public class JDGUsersTest {
         }
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(configFile)));
-        String line = "";
-        String ssoProject = null;
-        String adminPassword = null;
-        while (line != null) {
-            line = reader.readLine();
-            if (line == null) {
-                break;
+
+        try {
+            String line = "";
+
+            Map<String, String> props = new HashMap<>();
+            while (line != null) {
+                line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                if (!line.contains("=")) {
+                    continue;
+                }
+
+                // 7 is length of "export " - TODO: improve
+                String propName = line.substring(7, line.indexOf("=")).trim();
+                String propValue = line.substring(line.indexOf("=") + 1).trim();
+
+                // TODO: improve...
+                if (propValue.contains("$PROJECT")) {
+                    propValue = propValue.replace("$PROJECT", props.get("PROJECT"));
+                    propValue = propValue.replace("\"", "");
+                    propValue = propValue.replace(";", "");
+                }
+                props.put(propName, propValue);
             }
 
-            if (line.contains("PROJECT=")) {
-                ssoProject = line.substring(line.indexOf("=") + 1).trim();
-            }
-            if (line.contains("ADMIN_PASS=")) {
-                adminPassword = line.substring(line.indexOf("=") + 1).trim();
-            }
+            config = new TestConfig();
+            config.setSsoProject(props.get("PROJECT"));
+            config.setAdminPassword(props.get("ADMIN_PASS"));
+            config.setAwsRouteUrl(props.get("AWS_SSO_URL"));
+            config.setAzrRouteUrl(props.get("AZR_SSO_URL"));
+            config.setGceRouteUrl(props.get("GCE_SSO_URL"));
+        } finally {
+            reader.close();
         }
-
-        config = new TestConfig();
-        config.setSsoProject(ssoProject);
-        config.setAdminPassword(adminPassword);
     }
 
 

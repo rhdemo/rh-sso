@@ -1,6 +1,17 @@
 SSO
 ===
 
+Configuration
+-------------
+Once you checkout this project into directory `rh-sso`, make sure to create configuration file `secretstuff/sso/config`
+where `secretstuff` is the directory on same level like `rh-sso` directory (In other words, the `rh-sso` and `secretstuff` directories have same parent).
+
+Take a look at file `bin/config-template` how configuration values need to be filled according your environment.
+The environment assumes that you have hybrid cloud of 3 openshift clusters. In this example, we assume they 
+are executed on Amazon AWS, Azure and Google, but you can use any other vendors. 
+
+There is an alternative to run the example on single cluster on localhost, which is useful for testing purposes.
+See below for details on how to configure it. 
 
 Single cluster setup
 --------------------
@@ -13,17 +24,17 @@ Single cluster setup
 
 All clusters setup working with JDG
 -----------------------------------
-On real servers (AWS, GCE, Azure), there is always project "datagrid" with deployed JDG server (more accurately
+On real servers (AWS, GCE, Azure), there needs to be project "datagrid" with deployed JDG server (more accurately
 it is Infinispan server 9.2.0). Every cluster has the JDG available as a service. Any other pods, even from different 
-projects (EG. RHSSO), can connect to it through Hotrod protocol on `jdg-app-hotrod.datagrid.svc:11222` .
+projects (EG. RHSSO), can connect to JDG through Hotrod protocol on `jdg-app-hotrod.datagrid.svc:11222` .
+
+This example assumes that JDG servers on various clusters communicate with each other through JGroups RELAY2 protocol.
+Steps how to setup and deploy JDG servers are outside of scope of this README as it's more related to JDG rather than RH SSO.
 
 Steps to deploy:
 1. In the config file `../secretstuff/sso/config` , make sure that:
 * Property `PROJECT` is set to some value, so it doesn't clash with other potentially existing projects 
 on the cluster.
-* Properties `AWS_LOGIN_CMD`, `AZR_LOGIN_CMD` and `GCE_LOGIN_CMD` are properly configured and contain oc login command
-with your token. When you are logged through web UI into any cluster, you can click on your name in right top 
-corner and then click `Copy Login Command` . Then copy/paste this into appropriate variable. 
 * JDG related properties are configured like this (Explanation: We want JDG integration enabled. JDG host and port 
 are available on all 3 clusters through the service with well-known name as described above. JDG_SITE is autodetected
 according to cluster in which you are logged on, so it's not needed to configure this property):
@@ -62,7 +73,7 @@ In real clusters environment, the communication between JDG servers through RELA
 Monitor JDG Remote cache
 ------------------------
 We have some possibility to monitor JDG remote caches for debugging purposes. 
-Assuming ROUTE is something like `https://openshift-master.summit-aws.sysdeseng.com`
+Assuming ROUTE is something like `https://secure-sso-sso.127.0.0.1.nip.io`
 
 Size of the specified cache
 ```

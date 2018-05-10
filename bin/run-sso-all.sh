@@ -4,33 +4,37 @@
 
 function ocLogin
 {
-    echo "Login to $2 now";
+    echo "Login to $1 with token $2 now";
 
     if [ -z "$1" ]; then
-        echo "Variable $2_LOGIN_CONFIG not defined. Check your config";
+        echo "Required variable $3 not defined. Check your config";
+        exit 1;
+    fi;
+    if [ -z "$2" ]; then
+        echo "Required variable $4 not defined. Check your config";
         exit 1;
     fi;
 
-    eval $1;
+    oc login $1 --token=$2
 }
 
 # First create project on all clusters. Then configure it. This is to allow concurrent start of clusters
-ocLogin "$AWS_LOGIN_CMD" "AWS";
+ocLogin "$AWS_OPENSHIFT_URL" "$AWS_TOKEN" "AWS_OPENSHIFT_URL" "AWS_TOKEN";
 $DIR/bin/run-sso-parent.sh;
 
-ocLogin "$AZR_LOGIN_CMD" "AZR";
+ocLogin "$AZR_OPENSHIFT_URL" "$AZR_TOKEN" "AZR_OPENSHIFT_URL" "AZR_TOKEN";
 $DIR/bin/run-sso-parent.sh;
 
-ocLogin "$GCE_LOGIN_CMD" "GCE";
+ocLogin "$GCE_OPENSHIFT_URL" "$GCE_TOKEN" "GCE_OPENSHIFT_URL" "GCE_TOKEN";
 $DIR/bin/run-sso-parent.sh;
 
-ocLogin "$AWS_LOGIN_CMD" "AWS";
+ocLogin "$AWS_OPENSHIFT_URL" "$AWS_TOKEN" "AWS_OPENSHIFT_URL" "AWS_TOKEN";
 $DIR/bin/oc-config-sso.sh;
 
-ocLogin "$AZR_LOGIN_CMD" "AZR";
+ocLogin "$AZR_OPENSHIFT_URL" "$AZR_TOKEN" "AZR_OPENSHIFT_URL" "AZR_TOKEN";
 $DIR/bin/oc-config-sso.sh;
 
-ocLogin "$GCE_LOGIN_CMD" "GCE";
+ocLogin "$GCE_OPENSHIFT_URL" "$GCE_TOKEN" "GCE_OPENSHIFT_URL" "GCE_TOKEN";
 $DIR/bin/oc-config-sso.sh;
 
 if [ $JDG_INTEGRATION_ENABLED == "true" ]; then

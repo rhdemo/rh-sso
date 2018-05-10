@@ -8,12 +8,12 @@ detectJdgSite() {
     currentServer=$(oc whoami --show-server);
     echo "Logged to: $currentServer";
 
-    if [ $currentServer == "https://openshift-master.summit-aws.sysdeseng.com:443" ]; then
+    if [ $currentServer == "$AWS_OPENSHIFT_URL:443" ]; then
         JDG_SITE=Amazon;
-    elif [ $currentServer == "https://openshift-master.summit-gce.sysdeseng.com:443" ]; then
-        JDG_SITE=Private;
-    elif [ $currentServer == "https://openshift-master.summit-azr.sysdeseng.com:443" ]; then
+    elif [ $currentServer == "$AZR_OPENSHIFT_URL:443" ]; then
         JDG_SITE=Azure;
+    elif [ $currentServer == "$GCE_OPENSHIFT_URL:443" ]; then
+        JDG_SITE=Private;
     else
         echo "ERROR: JDG_SITE is not set and wasn't able to autodetect the site.";
         exit 1;
@@ -48,6 +48,7 @@ oc new-app -f $DIR/sso-single.json \
 -p APPLICATION_NAME=sso \
 -p HTTPS_SECRET=sso-ssl-secret \
 -p HTTPS_PASSWORD=$CERT_PASS \
+-p SSO_LOADBALANCER_HOST=$SSO_LOADBALANCER_HOST \
 -p JAVA_OPTS_APPEND="$JAVA_OPTS_APPEND" \
 -p SSO_ADMIN_USERNAME=admin \
 -p SSO_ADMIN_PASSWORD=$ADMIN_PASS \

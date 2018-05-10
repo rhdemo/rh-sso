@@ -93,10 +93,6 @@ public class TestConfig {
         testAzr = true;
         testAws = true;
         testGce = true;
-
-        awsRouteUrl = "https://secure-sso-" + ssoProject + ".apps.summit-aws.sysdeseng.com";
-        azrRouteUrl = "https://secure-sso-" + ssoProject + ".apps.summit-azr.sysdeseng.com";
-        gceRouteUrl = "https://secure-sso-" + ssoProject + ".apps.summit-gce.sysdeseng.com";
     }
 
     @Override

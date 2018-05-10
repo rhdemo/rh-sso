@@ -39,4 +39,6 @@ bin/kcadm.sh create realms --config $CONFIG -f realm-summit.json \
 bin/kcadm.sh update --config $CONFIG -r summit identity-provider/instances/google -s config.clientId=$GOOGLE_CLIENT_ID -s config.clientSecret=$GOOGLE_CLIENT_SECRET
 bin/kcadm.sh update --config $CONFIG -r summit identity-provider/instances/developers -s config.clientId=$DEVELOPERS_CLIENT_ID -s config.clientSecret=$DEVELOPERS_CLIENT_SECRET
 
+bin/kcadm.sh update --config $CONFIG -r summit clients/e0810662-2a8d-46ae-9419-40718b5fa3e0 -s redirectUris=$GAME_CLIENT_REDIRECT_URIS -s rootUrl=$GAME_CLIENT_ROOT_URL
+
 rm -rf $TMP

@@ -43,6 +43,13 @@
             "required": false
         },
         {
+            "displayName": "SSO Loadbalancer Host",
+            "description": "Hostname for loadbalancer. The loadbalancer route will be running here.",
+            "name": "SSO_LOADBALANCER_HOST",
+            "value": "",
+            "required": false
+        },
+        {
             "displayName": "Database JNDI Name",
             "description": "Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/mysql",
             "name": "DB_JNDI",
@@ -456,7 +463,7 @@
                 }
             },
             "spec": {
-                "host": "sso.redhatkeynote.com",
+                "host": "${SSO_LOADBALANCER_HOST}",
                 "to": {
                     "name": "secure-${APPLICATION_NAME}"
                 },

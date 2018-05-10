@@ -610,7 +610,7 @@
   }, {
     "id" : "e0810662-2a8d-46ae-9419-40718b5fa3e0",
     "clientId" : "game",
-    "rootUrl" : "https://www.redhatkeynote.com",
+    "rootUrl" : "TBD",
     "adminUrl" : "",
     "baseUrl" : "/",
     "surrogateAuthRequired" : false,
@@ -618,17 +618,7 @@
     "clientAuthenticatorType" : "client-secret",
     "secret" : "4c80af71-4d89-4490-beae-5aaa2907a4cc",
     "redirectUris" : [
-      "https://redhatkeynote.com/*",
-      "https://www.redhatkeynote.com/*",
-      "https://scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/*",
-      "https://scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-azr.sysdeseng.com/*",
-      "https://scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-gce.sysdeseng.com/*",
-      "https://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/*",
-      "https://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-azr.sysdeseng.com/*",
-      "https://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-gce.sysdeseng.com/*",
-      "http://localhost:8080/*",
-      "http://localhost:8081/*",
-      "http://localhost:8082/*"
+      "TBD"
     ],
     "webOrigins" : [ "+" ],
     "notBefore" : 0,
@@ -1556,23 +1546,5 @@
     "_browser_header.contentSecurityPolicy" : "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
     "waitIncrementSeconds" : "60"
   },
-  "users": [
-    {
-      "id" : "c7826df9-f1fe-4e65-9b46-388c9848b056",
-      "username": "mposolda",
-      "enabled": true,
-      "email": "mposolda@redhat.com",
-      "firstName": "Marek",
-      "lastName": "Posolda",
-      "realmRoles": [
-        "offline_access"
-      ],
-      "clientRoles": {
-        "account": [
-          "manage-account"
-        ]
-      }
-    }
-  ],
   "keycloakVersion" : "7.2.0.GA"
 }
