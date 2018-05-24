@@ -12,38 +12,47 @@ export AWS_OPENSHIFT_URL="https://my-aws.example.com";
 export AZR_OPENSHIFT_URL="https://my-azr.example.com";
 export GCE_OPENSHIFT_URL="https://my-gce.example.com";
 
-# Tokens to 3 openshift servers. The easiest way to retrieve the tokens is to login to particular openshift cluster admin console
+# Tokens to 3 openshift servers. Those variables are needed just if you want to deploy on all 3 openshift clusters with script run-sso-all.sh
+# The easiest way to retrieve the tokens is to login to particular openshift cluster admin console
 #, then click "Copy Login Command" in right top corner, then obtain token from it
 export AWS_TOKEN=<<AWS Token>>;
 export AZR_TOKEN=<<AZR Token>>;
 export GCE_TOKEN=<<GCE Token>>;
 
-# Hosts where the SSO servers will be up and running on particular 3 openshift clusters
+# Hosts where the SSO servers will be up and running on particular 3 openshift clusters. Those variables are needed just if you want to deploy on all 3 openshift clusters with script run-sso-all.sh
 export AWS_SSO_URL="https://secure-sso-$PROJECT.apps.my-aws.example.com";
 export AZR_SSO_URL="https://secure-sso-$PROJECT.apps.my-azr.example.com";
 export GCE_SSO_URL="https://secure-sso-$PROJECT.apps.my-gce.example.com";
 
-# Root URL and Valid Redirect URIs of rh-sso client 'game'
+# Root URL and Valid Redirect URIs of rh-sso client 'game' . Could be manually changed later in RHSSO admin console if needed.
 export GAME_CLIENT_ROOT_URL='"https://www.my-host.com"';
 export GAME_CLIENT_REDIRECT_URIS='["https://www.my-host.com/*","https://my-host.com/*","http://localhost:8080/*","http://localhost:8081/*","http://localhost:8082/*"]';
 
 # Switch to true if you want JDG integration enabled. That way, the "sso" will be configured to connect against JDG (Infinispan caches will have remoteStore added etc)
 export JDG_INTEGRATION_ENABLED=false
 
+# Needed just if JDG_INTEGRATION_ENABLED is true.
 # Valid values are "Private", "Amazon", "Azure" . When you're using real clusters, you don't need to specify this env variable.
 # It will be autodetected based on where you are authenticated with `oc`.
 export JDG_SITE=Private
 
+# Needed just if JDG_INTEGRATION_ENABLED is false
 # Those usually don't need to be changed. On all 3 "real" clusters is infinispan exposed by hostname "jdg-app-hotrod.datagrid.svc" on port 11222
 export JDG_HOST=jdg-app-hotrod.datagrid.svc
 export JDG_PORT=11222
 
+# SMTP settings used by RHSSO summit realm. This is needed so that RHSSO can send emails to users.
+# Could be manually changed later in RHSSO admin console if needed.
 export SMTP_USER=<Username for SMTP server>
 export SMTP_PASSWORD=<Password for SMTP server>
 export SMTP_FROM=<From field for emails>
 
+# Google identity provider clientId/clientSecret used by RHSSO for Login with Google.
+# Could be manually changed later in RHSSO admin console if needed.
 export GOOGLE_CLIENT_ID=<Client ID for Google login>
 export GOOGLE_CLIENT_SECRET=<Client secret for Google login>
 
+# developers.redhat.com identity provider clientId/clientSecret used by RHSSO for Login with Red Hat Developers.
+# Could be manually changed later in RHSSO admin console if needed.
 export DEVELOPERS_CLIENT_ID=<Client ID for RH developers login>
 export DEVELOPERS_CLIENT_SECRET=

@@ -13,18 +13,33 @@ are executed on Amazon AWS, Azure and Google, but you can use any other vendors.
 There is an alternative to run the example on single cluster on localhost, which is useful for testing purposes.
 See below for details on how to configure it. 
 
-Single cluster setup
---------------------
+Single cluster setup without JDG integration
+--------------------------------------------
+This is the most easy setup, which you need to use in case that RHSSO will be deployed just on single cloud.
+In this case, there is no need to save users and sessions into external JDG server as there won't be any
+replication to other clouds. So users will be saved in MySQL DB provided by "sso-mysql" service and sessions will
+be saved just in embedded infinispan caches within RHSSO server process.
 
-1. Login to oc
-2. Checkout secrets repository in the same directory as rh-sso checkout (if you checkout to a different directory set
-   SECRETS environment to point to it)
-3. Run `bin/run-sso-single.sh`
+1. Configure the environment in the `config` file, so that `JDG_INTEGRATION_ENABLED=false` . There are more  
+configuration properties, which are not needed. Some others will need to be changed based on where the `game` client
+will be running, Values of your SMTP server and also "Google" and "developers.redhat.com" identity providers. See the 
+`bin/config-template` for more details how should be properties configured.
+
+2. For Google, you will need to create project on Google console and add authorizard redirect uris based on your environment. 
+You will need to obtain clientId/clientSecret of your Google project and configure as the values 
+of `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` . See Keycloak admin console (Chapter `Identity Brokering`) for more details.
+
+For developers.redhat.com you will either need to remove the `developers` identity provider from realm `summit` or contact the owners
+of that domain. 
+ 
+3. Login to oc on the command line
+
+4. Run `bin/run-sso-single.sh`
 
 
 All clusters setup working with JDG
 -----------------------------------
-On real servers (AWS, GCE, Azure), there needs to be project "datagrid" with deployed JDG server (more accurately
+On real clusters (AWS, Private, Azure), there needs to be openshift project `datagrid` with deployed JDG server (more accurately
 it is Infinispan server 9.2.0). Every cluster has the JDG available as a service. Any other pods, even from different 
 projects (EG. RHSSO), can connect to JDG through Hotrod protocol on `jdg-app-hotrod.datagrid.svc:11222` .
 
@@ -102,8 +117,3 @@ So just run this:
 ```
 bin/periodic-test.sh
 ```
-
-
-
-  
-   
