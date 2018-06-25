@@ -27,7 +27,8 @@ will be running, Values of your SMTP server and also "Google" and "developers.re
 
 2. For Google, you will need to create project on Google console and add authorizard redirect uris based on your environment. 
 You will need to obtain clientId/clientSecret of your Google project and configure as the values 
-of `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` . See Keycloak admin console (Chapter `Identity Brokering`) for more details.
+of `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` . See Keycloak documentation - chapter `Identity Brokering`) for more details here:
+https://www.keycloak.org/docs/latest/server_admin/index.html#google .
 
 For developers.redhat.com you will either need to remove the `developers` identity provider from realm `summit` or contact the owners
 of that domain. 
@@ -45,6 +46,7 @@ projects (EG. RHSSO), can connect to JDG through Hotrod protocol on `jdg-app-hot
 
 This example assumes that JDG servers on various clusters communicate with each other through JGroups RELAY2 protocol.
 Steps how to setup and deploy JDG servers are outside of scope of this README as it's more related to JDG rather than RH SSO.
+More info could be found in https://github.com/rhdemo/jdg-as-a-service .
 
 Steps to deploy:
 1. In the config file `../secretstuff/sso/config` , make sure that:
@@ -67,7 +69,7 @@ Deploy SSO to work with JDG on localhost
 ----------------------------------------
 If you want to test SSO with JDG on local openshift (either executed through `oc cluster up` or minishift), 
 it's actually bit more complicated as you also need to provision JDG cluster locally. The steps are:
-* Checkout `jdg-as-a-service` project and make sure to use `infinispan` branch. 
+* Checkout `jdg-as-a-service` project from git: https://github.com/rhdemo/jdg-as-a-service .
 See the README file: https://github.com/rhdemo/jdg-as-a-service/blob/infinispan/README.asciidoc . You need 
 to `simulate` 3 sites locally. I am using same openshift server and just 3 different projects like `infinispan`, `infinispan-2`, `infinispan-3`.
 

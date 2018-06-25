@@ -36,7 +36,7 @@ export JDG_INTEGRATION_ENABLED=false
 # It will be autodetected based on where you are authenticated with `oc`.
 export JDG_SITE=Private
 
-# Needed just if JDG_INTEGRATION_ENABLED is false
+# Needed just if JDG_INTEGRATION_ENABLED is true
 # Those usually don't need to be changed. On all 3 "real" clusters is infinispan exposed by hostname "jdg-app-hotrod.datagrid.svc" on port 11222
 export JDG_HOST=jdg-app-hotrod.datagrid.svc
 export JDG_PORT=11222
