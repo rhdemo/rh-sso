@@ -13,6 +13,11 @@ are executed on Amazon AWS, Azure and Google, but you can use any other vendors.
 There is an alternative to run the example on single cluster on localhost, which is useful for testing purposes.
 See below for details on how to configure it. 
 
+Create self signed certificates
+-------------------------------
+First step is to create self signed certificates. You need to run `bin/create-self-signed-certs.sh` . Make sure that
+self signed certificates are created in the directory `secretstuff/sso/certs` .
+
 Single cluster setup without JDG integration
 --------------------------------------------
 This is the most easy setup, which you need to use in case that RHSSO will be deployed just on single cloud.
